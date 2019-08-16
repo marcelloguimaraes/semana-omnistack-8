@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
-import './Login.css';
-
+import logo from '../assets/logo.svg';
+import './Login.css'
 import api from '../services/api';
 
-import logo from '../assets/logo.svg';
-
-export default function Login({ history }) {
+export default function Login({history}) {
   const [username, setUsername] = useState('');
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-    const response = await api.post('/devs', {
-      username,
-    });
-
-    const { _id } = response.data;
-
-    history.push(`/dev/${_id}`);
+    try {
+      const response = await api.post('/devs', {
+        username
+      });
+      
+      const { _id } = response.data;
+      history.push(`/main/${_id}`);
+    } catch (error) {
+      if(error.response.status === 404)
+        alert('Usuário não encontrado no Github');
+    }
   }
 
-  return (
+  return(
     <div className="login-container">
       <form onSubmit={handleSubmit}>
         <img src={logo} alt="Tindev"/>
         <input 
-          placeholder="Digite seu usuário no Github"
+          type="text" 
+          placeholder="Digite seu usário do Github"
           value={username}
           onChange={e => setUsername(e.target.value)}
         />

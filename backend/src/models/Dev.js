@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const DevSchema = new Schema({
+const devSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -10,20 +10,21 @@ const DevSchema = new Schema({
     required: true,
   },
   bio: String,
-  avatar: {
+  avatar_url: {
     type: String,
     required: true,
   },
+  html_url: String,
   likes: [{
     type: Schema.Types.ObjectId,
-    ref: 'Dev',
+    ref: 'dev',
   }],
   dislikes: [{
     type: Schema.Types.ObjectId,
-    ref: 'Dev',
+    ref: 'dev'
   }],
 }, {
   timestamps: true,
-});
+  });
 
-module.exports = model('Dev', DevSchema);
+module.exports = model('dev', devSchema);
